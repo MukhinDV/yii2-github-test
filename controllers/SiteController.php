@@ -2,9 +2,7 @@
 
 namespace app\controllers;
 
-use app\components\GithubComponent;
 use app\models\query\RepositoryQuery;
-use app\models\Repository;
 use yii\web\Controller;
 
 class SiteController extends Controller
