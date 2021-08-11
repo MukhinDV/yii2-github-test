@@ -1,7 +1,10 @@
 <?php
 
 return [
-    'adminEmail' => 'admin@example.com',
-    'senderEmail' => 'noreply@example.com',
-    'senderName' => 'Example.com mailer',
+    'github_users' => [
+        'some',
+        'body',
+        'etc',
+    ],
+    'access_token' => 'some_token',
 ];

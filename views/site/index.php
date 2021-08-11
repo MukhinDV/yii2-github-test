@@ -1,53 +1,45 @@
 <?php
 
 /* @var $this yii\web\View */
+/* @var $repositories app\models\Repository */
 
-$this->title = 'My Yii Application';
+$this->title = 'Список репозиториев';
 ?>
 <div class="site-index">
-
-    <div class="jumbotron text-center bg-transparent">
-        <h1 class="display-4">Congratulations!</h1>
-
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
-    </div>
-
-    <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
-            </div>
-        </div>
-
-    </div>
+    <?php
+    if ($repositories) {
+        echo "<h3>$this->title</h3>";
+        ?>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Логин</th>
+                <th scope="col">Репозиторий</th>
+                <th scope="col">Дата обновления</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+            $i = 1;
+            foreach ($repositories as $repository) { ?>
+                <tr>
+                    <th scope="row"><?= $i ?></th>
+                    <td><?= $repository['login'] ?></td>
+                    <td>
+                        <a href="https://github.com/"<?= $repository['login'] . "/" . $repository['name'] ?>>
+                            <?= $repository['name'] ?></a></td>
+                    <td><?= $repository['repository_updated_at'] ?></td>
+                </tr>
+                <?php
+                $i++;
+            }
+            ?>
+            </tbody>
+        </table>
+        <?php
+    } else {
+        echo "<h3>Заполните пользователей. Либо у пользователей нет репозиториев</h3>";
+    }
+    ?>
 </div>

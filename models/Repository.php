@@ -7,24 +7,25 @@ use aracoool\uuid\{Uuid, UuidBehavior, UuidValidator};
 use yii\behaviors\TimestampBehavior;
 
 /**
- * This is the model class for table "user".
+ * This is the model class for table "repository".
  *
  * @property string $id
- * @property string $login Логин
- * @property bool $need_this_user Поиск будет по этому пользователю
+ * @property string $name Имя
+ * @property string $user_id
+ * @property int $repository_updated_at Дата обновления репозитория
  * @property int $created_at Дата создания
  * @property int|null $updated_at Дата обновления
  *
- * @property Repository[] $repositories
+ * @property User $user
  */
-class User extends \yii\db\ActiveRecord
+class Repository extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'user';
+        return 'repository';
     }
 
     /**
@@ -50,14 +51,13 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             [['id'], UuidValidator::class],
-            [['login',], 'required'],
-            [['id'], 'string'],
-            [['need_this_user'], 'boolean'],
-            [['created_at', 'updated_at'], 'default', 'value' => null],
+            [['name', 'user_id', 'repository_updated_at'], 'required'],
+            [['id', 'user_id'], 'string'],
+            [['repository_updated_at', 'created_at', 'updated_at'], 'default', 'value' => null],
             [['created_at', 'updated_at'], 'integer'],
-            [['login'], 'string', 'max' => 255],
-            [['login'], 'unique'],
+            [['name'], 'string', 'max' => 255],
             [['id'], 'unique'],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -68,20 +68,21 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'login' => 'Логин',
-            'need_this_user' => 'Поиск будет по этому пользователю',
+            'name' => 'Имя',
+            'user_id' => 'User ID',
+            'repository_updated_at' => 'Дата обновления репозитория',
             'created_at' => 'Дата создания',
             'updated_at' => 'Дата обновления',
         ];
     }
 
     /**
-     * Gets query for [[Repositories]].
+     * Gets query for [[User]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getRepositories()
+    public function getUser()
     {
-        return $this->hasMany(Repository::class, ['user_id' => 'id']);
+        return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 }
